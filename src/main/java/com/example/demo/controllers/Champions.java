@@ -19,35 +19,39 @@ public class Champions {
     @Autowired
     ChampionsRepo championsRepo;
 
-    @GetMapping("/champFront/import")
+    @GetMapping("/champions/import")
     public String championsImport(){
 
-        try{
-           String connectChampions = Jsoup.connect(championsRepo.url).ignoreContentType(true).get().toString();
-           int count = StringUtils.countOccurrencesOf(connectChampions, "");
+        try {
+            String docChamps = Jsoup.connect(championsRepo.url).ignoreContentType(true).get().toString();
+            int count= StringUtils.countOccurrencesOf(docChamps,"name\"");
 
-           for (int i = 0; i < count; i++ ){
-               Champion champion = new Champion();
+            for(int i = 0; i < count; i++) {
 
-               String loadedChampName = connectChampions.substring(connectChampions.indexOf("")+8,
-                       connectChampions.indexOf("")-2);
-               champion.setChampionName(loadedChampName);
+                Champion champion = new Champion();
 
-               Long loadedChampId = Long.parseLong(connectChampions.substring(connectChampions.indexOf("")+7,connectChampions.indexOf("")-1));
-               champion.setChampionId(loadedChampId);
+                String champName = docChamps.substring(docChamps.indexOf("\"name\":")+8,
+                        docChamps.indexOf("\"title\":")-2);
+                champion.setChampionName(champName);
 
-               String loadedchampTitle = connectChampions.substring(connectChampions.indexOf("")+9,
-                       connectChampions.indexOf("")-1);
-               champion.setChampionTitle(loadedchampTitle);
+                Long champId = Long.parseLong(docChamps.substring(docChamps.indexOf("\"key\":")+7,docChamps.indexOf(",\"name\":")-1));
+                champion.setChampionId(champId);
 
-               connectChampions = connectChampions.substring(connectChampions.indexOf("")+10);
-               championsRepo.save(champion);
-           }
-        }catch (IOException e){
+                String champTitle = docChamps.substring(docChamps.indexOf("\"title\":")+9,
+                        docChamps.indexOf(",\"blurb\":")-1);
+                champion.setChampionTitle(champTitle);
+
+
+                docChamps = docChamps.substring(docChamps.indexOf("\"info\":")+10);
+                championsRepo.save(champion);
+
+
+            }
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return "Done";
+        return "characters been loaded into database";
     }
 
     @GetMapping("/showchampions.html")
