@@ -24,23 +24,23 @@ public class Champions {
 
         try{
            String connectChampions = Jsoup.connect(championsRepo.url).ignoreContentType(true).get().toString();
-           int count = StringUtils.countOccurrencesOf(connectChampions, "");
+           int count = StringUtils.countOccurrencesOf(connectChampions, "name");
 
            for (int i = 0; i < count; i++ ){
                Champion champion = new Champion();
 
-               String loadedChampName = connectChampions.substring(connectChampions.indexOf("")+8,
+               String loadedChampName = connectChampions.substring(connectChampions.indexOf("name")+8,
                        connectChampions.indexOf("")-2);
                champion.setChampionName(loadedChampName);
 
-               Long loadedChampId = Long.parseLong(connectChampions.substring(connectChampions.indexOf("")+7,connectChampions.indexOf("")-1));
+               Long loadedChampId = Long.parseLong(connectChampions.substring(connectChampions.indexOf("id")+7,connectChampions.indexOf("")-1));
                champion.setChampionId(loadedChampId);
 
-               String loadedchampTitle = connectChampions.substring(connectChampions.indexOf("")+9,
+               String loadedchampTitle = connectChampions.substring(connectChampions.indexOf("title")+9,
                        connectChampions.indexOf("")-1);
                champion.setChampionTitle(loadedchampTitle);
 
-               connectChampions = connectChampions.substring(connectChampions.indexOf("")+10);
+               connectChampions = connectChampions.substring(connectChampions.indexOf("desc")+10);
                championsRepo.save(champion);
            }
         }catch (IOException e){
