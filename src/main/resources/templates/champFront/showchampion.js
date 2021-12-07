@@ -7,7 +7,7 @@ fetch(baseURL+"/showchampions")
     });
 
 
-function createTable(champions) {
+function createTable() {
     const cardElement = document.createElement("tr");
     cardElement.innerHTML = `
         <td>champions.championId.toString()</td>
