@@ -5,12 +5,12 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+
 import org.hibernate.annotations.GenericGenerator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.Set;
 
 @Data
 @Table(name ="summoners")
@@ -39,4 +39,9 @@ public class Summoner {
 
     @Column
     private int summonerLevel;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "summoner",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private Set<Match> match;
+
 }
