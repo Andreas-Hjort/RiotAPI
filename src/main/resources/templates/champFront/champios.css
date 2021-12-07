@@ -1,0 +1,60 @@
+table{
+    border-collapse: collapse;
+    width: 80%;
+    margin: auto;
+}
+th{
+    background-color: lightblue;
+}
+td, th{
+    border: 1px solid black;
+    text-align: left;
+    padding: 4px;
+}
+
+tr:nth-child(even){
+    background-color:lightgray;
+}
+
+tr:nth-child(odd){
+    background-color: dimgray;
+}
+.btn{
+    background-color: whitesmoke;
+    color: black;
+    padding: 7px 10px;
+    text-align: center;
+}
+.btn:hover{
+    box-shadow: 2px 2px 2px #888888;
+}
+#btn-create{
+    background-color: whitesmoke;
+}
+#btn-viewOne{
+    background-color: whitesmoke;
+    width: 50px;
+}
+#btn-delete{
+    background-color: whitesmoke;
+    width: 50px;
+
+}
+#btn-update{
+    background-color: whitesmoke;
+    width: 50px;
+}
+
+#btn-update{
+    background: whitesmoke;
+    width: 50px;
+}
+
+.container {
+    width: 250px;
+    clear: both;
+}
+.container input {
+    width: 100%;
+    clear: both;
+}
