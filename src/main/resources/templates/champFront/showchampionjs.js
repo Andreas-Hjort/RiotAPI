@@ -10,9 +10,9 @@ fetch(baseURL+"/showchampions")
 function createTable(champions) {
     const cardElement = document.createElement("tr");
     cardElement.innerHTML = `
-        <td>${escapeHTML(champions.championId.toString())}</td>
-        <td>${escapeHTML(champions.championName)}</td>
-        <td>${escapeHTML(champions.championTitle)}</td>  
+        <td>champions.championId.toString()</td>
+        <td>champions.championName.toString()</td>
+        <td>champions.championTitle.toString()</td>  
     `;
 
     tbodyElement.appendChild(cardElement);
