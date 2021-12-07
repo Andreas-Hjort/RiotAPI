@@ -8,6 +8,7 @@ public class RiotApiApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(RiotApiApplication.class, args);
+
     }
 
 }
