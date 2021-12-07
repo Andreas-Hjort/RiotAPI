@@ -50,22 +50,22 @@ public class Champions {
         return "Done";
     }
 
-    @GetMapping("/champions")
+    @GetMapping("/showchampions")
     public List<Champion> findAllMatches(){
         return championsRepo.findAll();
     }
 
-    @GetMapping("/champions/{id}")
+    @GetMapping("/showchampions/{id}")
     public Champion findMatchById(@PathVariable long id){
         return championsRepo.findById(id).get();
     }
 
-    @DeleteMapping("/champions/{id}")
+    @DeleteMapping("/showchampions/{id}")
     public void deleteById(@PathVariable long id){
         championsRepo.deleteById(id);
     }
 
-    @PatchMapping("/champions/{id}")
+    @PatchMapping("/showchampions/{id}")
     public String updateChampionsInfo(@PathVariable Long id, @RequestBody Champion championToPatch){
         return championsRepo.findById(id).map(foundChampion ->{
             if(championToPatch.getChampionId()!=null)foundChampion.setChampionId(championToPatch.getChampionId());
