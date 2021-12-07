@@ -1,6 +1,6 @@
 const tbodyElement = document.getElementById("champions-tbody");
 
-fetch(baseURL+"/champions")
+fetch(baseURL+"/showchampions")
     .then(response => response.json())
     .then(result => {
         result.map(champions => createTable(champions));
