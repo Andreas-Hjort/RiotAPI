@@ -54,7 +54,7 @@ public class Champions {
         return "characters been loaded into database";
     }
 
-    @GetMapping("/showchampions.html")
+    @GetMapping("/showchampions")
     public List<Champion> findAllMatches(){
         return championsRepo.findAll();
     }
