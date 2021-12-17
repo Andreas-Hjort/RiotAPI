@@ -36,7 +36,7 @@ public class Summoners {
     }
 
     @PutMapping("/summoner/{id}")
-    public String updateSummoner(@PathVariable String id, @RequestBody Summoner summonerToUpdate){
+    public String updateSummoner(@PathVariable Long id, @RequestBody Summoner summonerToUpdate){
         if(summoners.existsById(id)) {
             summonerToUpdate.setId(id);
             summoners.save(summonerToUpdate);
