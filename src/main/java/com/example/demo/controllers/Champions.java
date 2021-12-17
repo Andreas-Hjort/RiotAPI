@@ -7,6 +7,7 @@ import com.example.demo.models.Champion;
 import com.example.demo.models.Summoner;
 import com.example.demo.repositories.MatchesRepository;
 import com.example.demo.repositories.SummonersRepo;
+import com.example.demo.repositories.MatchesRepository;
 @RestController
 public class Champions {
 

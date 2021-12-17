@@ -2,9 +2,7 @@ package com.example.demo.models;
 
 import lombok.Data;
 import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.jpa.repository.Query;
+import lombok.Setter;;
 
 import javax.persistence.*;
 

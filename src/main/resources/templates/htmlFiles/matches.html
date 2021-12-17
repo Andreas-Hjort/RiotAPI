@@ -1,29 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <script src="../global/host.js"></script>
+    <title>Title</title>
     <script src="../lib/HTMLEscape.js"></script>
-    <title>Matches</title>
+    <script src="../global/host.js"></script>
+    <link  href="./matchhistory.css" rel="stylesheet"><link>
 </head>
 <body>
 
+<div id="upperInformationBox">
+    <button id="update-match-history">Update history</button>
+</div>
 
-<table>
-    <thead>
-    <tr>
-        <th>Match Id</th>
-        <th>Match Summoner Names</th>
-        <th>Match W/L</th>
-        <th>Match Kills</th>
-        <th>Match Deaths</th>
-    </tr>
-    </thead>
-    <tbody id="matches-tbody">
+<div id="box">
+    <div id="match-history-gallery"></div>
+</div>
 
-    </tbody>
-</table>
 
-<script src="../js/matches.js"></script>
+<script src="../js/history.js"></script>
+
+
 </body>
 </html>
