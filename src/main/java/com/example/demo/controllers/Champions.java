@@ -19,7 +19,7 @@ public class Champions {
     @Autowired
     ChampionsRepo championsRepo;
 
-    @GetMapping("/champions/import")
+    @GetMapping("/showchampions/import")
     public String championsImport(){
 
         try {
