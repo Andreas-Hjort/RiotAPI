@@ -1,29 +1,31 @@
-package com.example.demo.models;
+package riot.mandatory.leagueoflegends.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
 @Data
-@Table(name = "matches")
+@Table(name="matches")
 @Entity
-@Getter @Setter
 public class Match {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false)
+    @Column
     private Long id;
 
     @Column
     private String summonerName;
 
     @Column
-    private boolean win;
+    private String matchPuuId;
+
+    @Column
+    private String matchId;
+
+    @Column
+    private boolean gameResult;
 
     @Column
     private int kills;
@@ -32,6 +34,14 @@ public class Match {
     private int deaths;
 
     @Column
-    private String matchId;
+    private int assists;
 
+    @Column
+    private int ultCasts;
+
+    @Column
+    private String champName;
+
+    @Column
+    private int matchDur;
 }

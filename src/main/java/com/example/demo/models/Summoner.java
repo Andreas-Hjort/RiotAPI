@@ -13,14 +13,17 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Set;
 
 @Data
-@Table(name ="summoners")
+@Table(name="summoners")
 @Entity
-@Getter @Setter
 public class Summoner {
 
     @Id
-    @Column(nullable = false)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
+    private Long id;
+
+    @Column
+    private String summonerId;
 
     @Column
     private String accountId;
@@ -31,17 +34,5 @@ public class Summoner {
     @Column
     private String name;
 
-    @Column
-    private int profileIconId;
-
-    @Column
-    private long revisionDate;
-
-    @Column
-    private int summonerLevel;
-
-    /*@JsonIgnore
-    @OneToMany(mappedBy = "summoner",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    private Set<Match> match;
-*/
 }
+
