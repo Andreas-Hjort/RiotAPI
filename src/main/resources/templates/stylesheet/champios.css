@@ -1,15 +1,20 @@
-table{
+
+#champion-gallery{
     border-collapse: collapse;
     width: 80%;
     margin: auto;
-}
-th{
-    background-color: lightblue;
-}
-td, th{
     border: 1px solid black;
     text-align: left;
     padding: 4px;
+}
+
+#box {
+    width: 30%;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+    border: solid;
+    background-color: #578e57;
 }
 
 tr:nth-child(even){
