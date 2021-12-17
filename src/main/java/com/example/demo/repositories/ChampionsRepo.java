@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ChampionsRepo extends JpaRepository<Champion,Long> {
     String url = "https://ddragon.leagueoflegends.com/cdn/11.18.1/data/en_GB/champion.json";
-    String apikey = "?api_key=RGAPI-4165caf8-ecd6-46bf-b650-dbeb1b0994c7";
+    String apikey = "?api_key=RGAPI-0987dd10-4fa1-4377-a0e3-16cdeebf7619";
 
 
 

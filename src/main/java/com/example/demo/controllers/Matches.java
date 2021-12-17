@@ -24,7 +24,7 @@ public class Matches {
     SummonersRepo summonersRepo;
 
     private static final String BASE_URL = "https://europe.api.riotgames.com/lol/match/v5/matches/";
-    private static final String APIKEY = "&api_key=RGAPI-4165caf8-ecd6-46bf-b650-dbeb1b0994c7";
+    private static final String APIKEY = "&api_key=RGAPI-0987dd10-4fa1-4377-a0e3-16cdeebf7619";
 
     //finder alle summoners
     public String importMatches(){
