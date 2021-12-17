@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome!</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/stylesheet/home.css}"/>
+</head>
+<body>
+<h1>RIOT API</h1>
+<h2>Search for summoners, matches or champions!</h2>
+<nav>
+
+    <a href="http://localhost:63342/RiotAPImandatory/demo/templates/champFront/showchampions.html">
+        <button id="championButton">Champions</button>
+    </a>
+
+    <a href="http://localhost:6060/RiotAPI/resources/templates/home.html">
+        <button id="importButton">Import</button>
+    </a>
+
+    <a href="http://localhost:63342/Rito_API/templates/summoners/summoners.html">
+        <button id="summonersButton">Summoners</button>
+    </a>
+
+    <a href="http://localhost:63342/Rito_API/templates/matches/matches.html">
+        <button id="matchButton">Matches</button>
+    </a>
+
+</nav>
+</body>
+</html>
