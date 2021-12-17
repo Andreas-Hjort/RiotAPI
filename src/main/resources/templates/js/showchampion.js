@@ -28,7 +28,7 @@ function createChampion(divElement, champion){
 }
 
 function deleteChampionDB() {
-    fetch(localurl + "/champions/delete/all/", {
+    fetch(baseURL + "/champions/delete/all/", {
         method: "DELETE"
     }).then(response => {
         if (response.status === 200) {
@@ -48,7 +48,7 @@ function saveChampion(champion) {
     let championToSave = {
         championName: champion
     }
-    fetch(localurl + "/champions", {
+    fetch(baseURL + "/champions", {
         method: "POST",
         headers: {"Content-type": "application/json"},
         body: JSON.stringify(championToSave)
