@@ -2,7 +2,10 @@ package com.example.demo.controllers;
 
 import com.example.demo.models.Summoner;
 import com.example.demo.repositories.SummonersRepo;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.introspect.VisibilityChecker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,59 +16,50 @@ import java.util.List;
 @RestController
 public class Summoners {
 
-   @Autowired
+    @Autowired
     SummonersRepo summoners;
 
-   @GetMapping("/summoners")
-   public List<Summoner> showAllSummoners(){
-       return summoners.findAll();
-   }
+    @GetMapping("/summoners")
+    public Iterable<Summoner> getSummoner() {
+        return summoners.findAll();
+    }
 
     @GetMapping("/summoners/{id}")
-    public Summoner showSummonerById(@PathVariable String id){
+    public Summoner getSummoner(@PathVariable String id) {
         return summoners.findById(id).get();
     }
 
-    @DeleteMapping("/summoners{id}")
-    public String deleteSummonerById(@PathVariable String id){
-       summoners.deleteById(id);
-       return "Summoner was deleted";
+    @PostMapping("/summoners")
+    public Summoner addSummoner(@RequestBody Summoner newSummoner) {
+        newSummoner.setId(null);
+        return summoners.save(newSummoner);
     }
 
-    @PostMapping("/summoners")
-    public String addSummoner(@RequestBody Summoner newSummoner){
-        summoners.save(newSummoner);
-       return newSummoner + " was added!";
+    @PutMapping("/summoner/{id}")
+    public String updateSummoner(@PathVariable String id, @RequestBody Summoner summonerToUpdate){
+        if(summoners.existsById(id)) {
+            summonerToUpdate.setId(id);
+            summoners.save(summonerToUpdate);
+            return "Summoner was updated";
+        } else {
+            return "Summoner not found";
+        }
     }
 
     @PatchMapping("/summoners/{id}")
-    public String updateSummonerInfo(@PathVariable String id, @RequestBody Summoner summonerToPatch){
-        return summoners.findById(id).map(foundSummoner ->{
-            if(summonerToPatch.getAccountId()!=null)foundSummoner.setAccountId(summonerToPatch.getAccountId());
-            if(summonerToPatch.getName()!=null)foundSummoner.setName(summonerToPatch.getName());
-            if(summonerToPatch.getProfileIconId()!=-1)foundSummoner.setProfileIconId(summonerToPatch.getProfileIconId());
-            if(summonerToPatch.getRevisionDate()!=-1)foundSummoner.setRevisionDate(summonerToPatch.getRevisionDate());
-            if(summonerToPatch.getSummonerLevel()!=-1)foundSummoner.setSummonerLevel(summonerToPatch.getSummonerLevel());
+    public String patchSummoner(@PathVariable String id, @RequestBody Summoner summonerToUpdate) {
+        return summoners.findById(id).map( foundSummoner -> {
+            if(summonerToUpdate.getSummonerId() != null) foundSummoner.setSummonerId(summonerToUpdate.getName());
+            if(summonerToUpdate.getPuuId() != null) foundSummoner.setPuuId(summonerToUpdate.getPuuId());
+            if(summonerToUpdate.getName() != null) foundSummoner.setName(summonerToUpdate.getName());
             summoners.save(foundSummoner);
-            return "Summoner was updated!";
-        }).orElse("Summoner was not updated! :(");
+            return "Summoner updated";
+        }).orElse("Summoner not found");
     }
 
-    @GetMapping("/summoners/import")
-    public String importSummonersToDB(){
-        for(int i = 0; i < summoners.usernames.length; i++) {
-
-            try {
-                ObjectMapper objectMapper = new ObjectMapper();
-                Summoner summonerToSave = objectMapper.readValue(new URL(summoners.url +
-                        summoners.usernames[i] + summoners.apikey),Summoner.class);
-                summoners.save(summonerToSave);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-                return "Error! " + e;
-            }
-        }
-        return "Summoners was imported to database";
+    @DeleteMapping("/summoner/{id}")
+    public void deleteSummoner(@PathVariable String id) {
+        summoners.deleteById(id);
     }
+
 }

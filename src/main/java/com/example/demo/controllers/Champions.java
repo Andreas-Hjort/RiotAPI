@@ -1,82 +1,65 @@
 package com.example.demo.controllers;
 
-
-
-import com.example.demo.models.Champion;
 import com.example.demo.repositories.ChampionsRepo;
-import org.jsoup.internal.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import org.jsoup.Jsoup;
-
-import java.io.IOException;
-import java.util.List;
-
+import com.example.demo.models.Champion;
+import com.example.demo.models.Summoner;
+import com.example.demo.repositories.MatchesRepository;
+import com.example.demo.repositories.SummonersRepo;
 @RestController
 public class Champions {
 
     @Autowired
-    ChampionsRepo championsRepo;
-
-    @GetMapping("/showchampions/import")
-    public String championsImport(){
-
-        try {
-            String docChamps = Jsoup.connect(championsRepo.url).ignoreContentType(true).get().toString();
-            int count= StringUtils.countOccurrencesOf(docChamps,"name\"");
-
-            for(int i = 0; i < count; i++) {
-
-                Champion champion = new Champion();
-
-                String champName = docChamps.substring(docChamps.indexOf("\"name\":")+8,
-                        docChamps.indexOf("\"title\":")-2);
-                champion.setChampionName(champName);
-
-                Long champId = Long.parseLong(docChamps.substring(docChamps.indexOf("\"key\":")+7,docChamps.indexOf(",\"name\":")-1));
-                champion.setChampionId(champId);
-
-                String champTitle = docChamps.substring(docChamps.indexOf("\"title\":")+9,
-                        docChamps.indexOf(",\"blurb\":")-1);
-                champion.setChampionTitle(champTitle);
+    ChampionsRepo champions;
 
 
-                docChamps = docChamps.substring(docChamps.indexOf("\"info\":")+10);
-                championsRepo.save(champion);
+    @GetMapping("/champions")
+    public Iterable<Champion> getChampion() {
+        return champions.findAll();
+    }
 
+    @GetMapping("/champions/{id}")
+    public Champion getChampion(@PathVariable Long id) {
+        return champions.findById(id).get();
+    }
 
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+    @PostMapping("/champions")
+    public Champion addChampion(@RequestBody Champion newChampion) {
+        return champions.save(newChampion);
+    }
+
+    @PutMapping("/champions/{id}")
+    public String updateChampion(@PathVariable Long id, @RequestBody Champion championToUpdate) {
+        if (champions.existsById(id)) {
+            championToUpdate.setId(id);
+            champions.save(championToUpdate);
+            return "Champion was updated";
+        } else {
+            return "Champion not found";
         }
-
-        return "characters been loaded into database";
     }
 
-    @GetMapping("/showchampions")
-    public List<Champion> findAllMatches(){
-        return championsRepo.findAll();
+    @PatchMapping("/champions/{id}")
+    public String patchChampion(@PathVariable Long id, @RequestBody Champion championToUpdate) {
+        return champions.findById(id).map(foundChampion -> {
+            if (championToUpdate.getChampionId() != null) foundChampion.setChampionId(championToUpdate.getChampionId());
+            if (championToUpdate.getChampionName() != null)
+                foundChampion.setChampionName(championToUpdate.getChampionName());
+            if (championToUpdate.getChampionImage() != null)
+                foundChampion.setChampionImage(championToUpdate.getChampionImage());
+            champions.save(foundChampion);
+            return "Champion updated";
+        }).orElse("Champion not found");
     }
 
-    @GetMapping("/showchampions/{id}")
-    public Champion findMatchById(@PathVariable long id){
-        return championsRepo.findById(id).get();
+    @DeleteMapping("/champions/{id}")
+    public void deleteChampion(@PathVariable Long id) {
+        champions.deleteById(id);
     }
 
-    @DeleteMapping("/showchampions/{id}")
-    public void deleteById(@PathVariable long id){
-        championsRepo.deleteById(id);
-    }
-
-    @PatchMapping("/showchampions/{id}")
-    public String updateChampionsInfo(@PathVariable Long id, @RequestBody Champion championToPatch){
-        return championsRepo.findById(id).map(foundChampion ->{
-            if(championToPatch.getChampionId()!=null)foundChampion.setChampionId(championToPatch.getChampionId());
-            if(championToPatch.getChampionName()!=null)foundChampion.setChampionName(championToPatch.getChampionName());
-            if(championToPatch.getChampionTitle()!=null)foundChampion.setChampionTitle(championToPatch.getChampionTitle());
-            championsRepo.save(foundChampion);
-            return "champion was patched";
-        }).orElse("champion was not patched");
+    @DeleteMapping("/champions/delete/all")
+    public void deleteAllChampions() {
+        champions.deleteAll();
     }
 }

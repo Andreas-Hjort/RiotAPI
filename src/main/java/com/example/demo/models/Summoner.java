@@ -2,15 +2,8 @@ package com.example.demo.models;
 
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
-
-import org.hibernate.annotations.GenericGenerator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import java.util.Set;
 
 @Data
 @Table(name="summoners")
@@ -28,7 +21,7 @@ public class Summoner {
     @Column
     private String accountId;
 
-    @Column
+    @Column(nullable = true)
     private String puuId;
 
     @Column

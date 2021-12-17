@@ -1,5 +1,4 @@
-package riot.mandatory.leagueoflegends.models;
-
+package com.example.demo.models;
 
 import lombok.Data;
 
