@@ -2,16 +2,8 @@ package com.example.demo.controllers;
 
 import com.example.demo.models.Summoner;
 import com.example.demo.repositories.SummonersRepo;
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.introspect.VisibilityChecker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.List;
 
 @RestController
 public class Summoners {
@@ -36,7 +28,7 @@ public class Summoners {
     }
 
     @PutMapping("/summoner/{id}")
-    public String updateSummoner(@PathVariable Long id, @RequestBody Summoner summonerToUpdate){
+    public String updateSummoner(@PathVariable String id, @RequestBody Summoner summonerToUpdate){
         if(summoners.existsById(id)) {
             summonerToUpdate.setId(id);
             summoners.save(summonerToUpdate);

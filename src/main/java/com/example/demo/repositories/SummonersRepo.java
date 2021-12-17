@@ -4,5 +4,5 @@ import com.example.demo.models.Summoner;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface SummonersRepo extends JpaRepository<Summoner, String> {
-    boolean existsById(Long id);
+    boolean existsById(String id);
 }

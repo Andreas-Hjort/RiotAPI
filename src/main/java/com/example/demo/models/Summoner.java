@@ -13,7 +13,7 @@ public class Summoner {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    private Long id;
+    private String id;
 
     @Column
     private String summonerId;
