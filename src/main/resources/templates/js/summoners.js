@@ -1,24 +1,59 @@
-const tbodyElement = document.getElementById("summoner-tbody");
 
-fetch(baseURL+"/summoners")
+fetch(baseURL + "/summoners")
     .then(response => response.json())
-    .then(result => {
-        result.map(summoner => createTable(summoner));
-    });
+    .then(summoners => {
+        summoners.map(addSummonerInfoToDivList);
+    })
+
+const summonerListWrapper = document.getElementById("summoner-list");
 
 
-function createTable(summoner) {
-    const cardElement = document.createElement("tr");
-    cardElement.innerHTML = `
-        <td>${escapeHTML(summoner.name)}</td>
-        <td>${escapeHTML(summoner.accountId)}</td>
-        <td>${escapeHTML(summoner.summonerLevel.toString())}</td>
-        <td>${escapeHTML(summoner.puuid)}</td>
-        <td>${escapeHTML(summoner.profileIconId.toString())}</td>
-        <td>${escapeHTML(summoner.revisionDate.toString())}</td>
-        
-        
-    `;
-
-    tbodyElement.appendChild(cardElement);
+function addSummonerInfoToDivList(summoner){
+    const summonerToDiv = document.createElement("div");
+    summonerListWrapper.appendChild(summonerToDiv);
+    createSummoner(summonerToDiv, summoner);
 }
+
+function createSummoner(divElement, summoner){
+    divElement.innerHTML = `
+    <a href="./matchhistory.html?puuId=${summoner.puuId}">
+    <h1>
+    ${escapeHTML(summoner.name)}
+    </h1>
+    </a>
+    `;
+}
+
+document.getElementById("search-summoner-name").addEventListener("click", searchForSummoner);
+
+function searchForSummoner(){
+    const summonerSearchInput = document.getElementById("summoner-name").value;
+    fetch("https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + summonerSearchInput + "?api_key=" + apikey)
+        .then(response => response.json())
+        .then(summoner => {
+            saveSummonerAccInfo(summoner)
+        })
+};
+
+function saveSummonerAccInfo(summoner) {
+    let summonerAccToSave = {
+        summonerId: summoner.id,
+        accountId: summoner.accountId,
+        puuId: summoner.puuid,
+        name: summoner.name,
+    };
+
+    fetch(baseURL + "/summoners", {
+        method: "POST",
+        headers: {"Content-type": "application/json"},
+        body: JSON.stringify(summonerAccToSave)
+    }).then(response => {
+        if (response.status === 200) {
+            addSummonerInfoToDivList(summonerAccToSave);
+        } else {
+            console.log("summoner not created", response.status);
+        }
+    })
+        .catch(error => console.log("network error" + error));
+}
+
